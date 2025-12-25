@@ -1,43 +1,52 @@
+// src/main.tsx (or index.tsx)
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import type{ Plant } from './assets/types';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import App from './App';            // import your root component
+import type { Plant } from './assets/types';
 
 const plants: Plant[] = [
   {
     id: 1,
     name: 'Snake Plant',
-    scientific: 'Sansevieria trifasciata',
+    scientificName: 'Sansevieria trifasciata',
     difficulty: 'Easy',
     light: 'Low',
     water: 'Low',
     rarity: 'Common',
-    description: 'A hardy indoor plant that requires minimal care.'
+    description: 'A hardy indoor plant that requires minimal care.',
   },
   {
     id: 2,
     name: 'Peace Lily',
-    scientific: 'Spathiphyllum',
+    scientificName: 'Spathiphyllum',
     difficulty: 'Medium',
     light: 'Medium',
     water: 'Moderate',
     rarity: 'Uncommon',
-    description: 'Known for its beautiful white flowers and air-purifying qualities.'
+    description:
+      'Known for its beautiful white flowers and air-purifying qualities.',
   },
   {
     id: 3,
     name: 'Monstera',
-    scientific: 'Monstera deliciosa',
+    scientificName: 'Monstera deliciosa',
     difficulty: 'Medium',
     light: 'Bright',
     water: 'Frequent',
-    description: 'A popular decorative plant with large split leaves.'
-  }
+    rarity: '',
+    description: 'A popular decorative plant with large split leaves.',
+  },
 ];
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App plants={plants} />
+    {/* Option A: App manages its own initial plants */}
+    <App />
+
+    {/* Option B: if App expects a prop, use:
+        <App initialPlants={plants} />
+    */}
   </React.StrictMode>
 );

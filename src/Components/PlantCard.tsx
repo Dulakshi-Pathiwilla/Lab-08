@@ -1,45 +1,64 @@
 import React from 'react';
 import type { Plant } from '../assets/types';
 
-type PlantCardProps = {
+interface PlantCardProps {
   plant: Plant;
-};
+  onDelete: (id: number) => void;
+}
 
-const lightIcons = {
-  Low: '🌞',
-  Medium: '🌞🌞',
-  Bright: '🌞🌞🌞'
-};
+const PlantCard: React.FC<PlantCardProps> = ({ plant, onDelete }) => {
+  const handleViewDetails = () => {
+    window.alert(`Details for ${plant.name}`);
+  };
 
-const waterIcons = {
-  Low: '💧',
-  Moderate: '💧💧',
-  Frequent: '💧💧💧'
-};
-
-const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   return (
-    <div className="card mb-3">
+    <div className="card mt-3">
       <div className="card-body">
-        <h5 className="card-title">{plant.name} {plant.scientific && <small>({plant.scientific})</small>}</h5>
+        <h5 className="card-title mb-1">
+          {plant.name}{' '}
+          <small className="text-muted fst-italic">
+            ({plant.scientificName})
+          </small>
+        </h5>
+
         <p className="card-text">{plant.description}</p>
 
         <div className="mb-2">
-          <span className={`badge bg-${plant.difficulty === 'Easy' ? 'success' : plant.difficulty === 'Medium' ? 'warning' : 'danger'} me-1`}>
-            {plant.difficulty}
-          </span>
-          {plant.rarity && <span className={`badge bg-${plant.rarity === 'Common' ? 'secondary' : plant.rarity === 'Uncommon' ? 'warning' : 'info'}`}>{plant.rarity}</span>}
+          <span className="badge bg-primary me-2">{plant.difficulty}</span>
+          <span className="badge bg-warning text-dark">{plant.rarity}</span>
         </div>
 
-        <div className="mb-2">
-          <strong>Light: </strong>{lightIcons[plant.light]}
-        </div>
         <div className="mb-3">
-          <strong>Water: </strong>{waterIcons[plant.water]}
+          <div className="d-flex align-items-center mb-1">
+            <i className="bi bi-sun-fill text-warning me-2" aria-hidden="true" />
+            <small>
+              <strong>Light:</strong> {plant.light}
+            </small>
+          </div>
+          <div className="d-flex align-items-center">
+            <i className="bi bi-droplet-fill text-primary me-2" aria-hidden="true" />
+            <small>
+              <strong>Water:</strong> {plant.water}
+            </small>
+          </div>
         </div>
 
-        <button className="btn btn-outline-primary me-2" disabled>View</button>
-        <button className="btn btn-outline-danger" disabled>Buy (UI-only)</button>
+        <div className="d-flex gap-2">
+          <button
+            type="button"
+            className="btn btn-outline-primary btn-sm"
+            onClick={handleViewDetails}
+          >
+            View Details
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => onDelete(plant.id)}
+          >
+            Remove
+          </button>
+        </div>
       </div>
     </div>
   );

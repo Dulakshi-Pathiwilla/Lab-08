@@ -1,46 +1,48 @@
 import React from 'react';
 import type { Plant } from '../assets/types';
 
-type PlantListProps = {
+interface PlantListProps {
   plants: Plant[];
-  selectedId?: number;
-  onSelect: (id: number) => void;
-};
+  selectedId: number | null;
+  onSelect: (plant: Plant) => void;
+}
 
-const difficultyColors = {
-  Easy: 'success',
-  Medium: 'warning',
-  Hard: 'danger'
-};
+const PlantList: React.FC<PlantListProps> = ({
+  plants,
+  selectedId,
+  onSelect,
+}) => {
+  if (plants.length === 0) {
+    return (
+      <div className="list-group">
+        <div className="list-group-item text-muted">No plants found.</div>
+      </div>
+    );
+  }
 
-const rarityColors = {
-  Common: 'secondary',
-  Uncommon: 'warning',
-  Rare: 'info'
-};
-
-const PlantList: React.FC<PlantListProps> = ({ plants, selectedId, onSelect }) => {
   return (
-    <ul className="list-group">
+    <div className="list-group">
       {plants.map((plant) => (
-        <li
+        <button
           key={plant.id}
-          className={`list-group-item d-flex justify-content-between align-items-center ${
-            selectedId === plant.id ? 'active' : ''
-          }`}
-          style={{ cursor: 'pointer' }}
-          onClick={() => onSelect(plant.id)}
+          type="button"
+          className={
+            'list-group-item list-group-item-action ' +
+            (plant.id === selectedId ? 'active' : '')
+          }
+          onClick={() => onSelect(plant)}
         >
-          <div>
-            <strong>{plant.name}</strong> <em>{plant.scientific}</em>
-          </div>
-          <div>
-            <span className={`badge bg-${difficultyColors[plant.difficulty]} me-1`}>{plant.difficulty}</span>
-            {plant.rarity && <span className={`badge bg-${rarityColors[plant.rarity]}`}>{plant.rarity}</span>}
-          </div>
-        </li>
+          <div className="fw-semibold">{plant.name}</div>
+          <small
+            className={
+              plant.id === selectedId ? 'text-white-50' : 'text-muted'
+            }
+          >
+            {plant.scientificName}
+          </small>
+        </button>
       ))}
-    </ul>
+    </div>
   );
 };
 
