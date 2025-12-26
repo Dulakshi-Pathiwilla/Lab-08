@@ -28,17 +28,17 @@ const PlantList: React.FC<PlantListProps> = ({
           type="button"
           className={
             'list-group-item list-group-item-action ' +
-            (plant.id === selectedId ? 'active' : '')
+              (plant.id === selectedId ? 'active active-green' : '')
           }
           onClick={() => onSelect(plant)}
         >
-          <div className="fw-semibold">{plant.name}</div>
-          <small
-            className={
-              plant.id === selectedId ? 'text-white-50' : 'text-muted'
-            }
-          >
-            {plant.scientificName}
+        <div className="fw-semibold">{plant.name}</div>
+        <small
+          className={
+          plant.id === selectedId ? 'text-white-50' : 'text-muted'
+        }
+        >
+          {plant.scientificName}
           </small>
         </button>
       ))}
